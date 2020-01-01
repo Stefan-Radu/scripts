@@ -28,7 +28,7 @@ fn main() -> io::Result < () > {
     for line in f.lines() {
         let s = line.unwrap();
         if s.len() > 10 {
-            quotes.push(s[2..].to_string());
+            quotes.push(s.to_string());
         }
     }
 
