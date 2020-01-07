@@ -7,6 +7,8 @@ use std::io::prelude::*;
 use std::fs::File;
 use rand::Rng;
 
+const MIN_LENGTH: usize = 10;
+
 fn main() -> io::Result < () > {
 
     let args: Vec < String > = env::args().collect();
@@ -27,7 +29,7 @@ fn main() -> io::Result < () > {
 
     for line in f.lines() {
         let s = line.unwrap();
-        if s.len() > 10 {
+        if s.len() > MIN_LENGTH && s.chars().nth(0).unwrap() == '"' {
             quotes.push(s.to_string());
         }
     }
