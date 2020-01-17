@@ -1,5 +1,8 @@
 ## Quotes
 
-The exectuable takes as an argument the path to a quote file.   
-The file is parsed and any quotes that match a predefined format are stored into an array.   
-A random quote is printed on the screen from that array.   
+Provided a file containing various quotes, the program will print out on the screen one of them at random.   
+The quotes should be written using the following format: "Quote text"[ - Author's name]. Everything within brackts ([...]) is optional.   
+Example running command:   
+```rust
+quotes /path/to/quotes/file
+```
