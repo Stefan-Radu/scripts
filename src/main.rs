@@ -29,11 +29,16 @@ fn main() -> io::Result < () > {
     let f = File::open(args[1].clone())?;
     let f = BufReader::new(f);
 
-    // a quote should match the following format:
-    // "1"( - 2)
-    // 1 should be replaced by the quote itself
-    // 2 should be replaced by the name of the author
-    // () signifies an optional part
+/* 
+    A quote should match the following format: 
+        "text"( - Author's name)
+    The part wrapped in () is optional.
+    Examples of well formatted quotes:
+        "The sky is blue" - Anonymous's Le the 3rd
+        " The sky is red "
+    Lines NOT starting with quotes (") are ignored.
+*/
+
     // the format is checked using regex
     let quote_re = Regex::new("\"[a-zA-Z1-9.,?!-' ;:]+\"( - [a-zA-Z-'. ]*)?").unwrap();
 
@@ -51,6 +56,7 @@ fn main() -> io::Result < () > {
         else if s.chars().nth(0).unwrap() == '"' {
             // a quote will always start with ",
             // so there must be a problem if it is not matched
+            eprintln!("{}", s);
             eprintln!("quote is not matched:\n{}\n", s);
         }
     }
