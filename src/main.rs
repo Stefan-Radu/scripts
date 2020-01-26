@@ -40,7 +40,7 @@ fn main() -> io::Result < () > {
 */
 
     // the format is checked using regex
-    let quote_re = Regex::new("\"[a-zA-Z1-9.,?!-' ;:]+\"( - [a-zA-Z-'. ]*)?").unwrap();
+    let quote_re = Regex::new("\"[a-zA-Zéè1-9.,?!-' ;:]+\"( - [a-zA-Z-'. ]*)?").unwrap();
 
     let mut quotes: Vec < String > = Vec::new();
 
@@ -56,7 +56,6 @@ fn main() -> io::Result < () > {
         else if s.chars().nth(0).unwrap() == '"' {
             // a quote will always start with ",
             // so there must be a problem if it is not matched
-            eprintln!("{}", s);
             eprintln!("quote is not matched:\n{}\n", s);
         }
     }
