@@ -40,7 +40,7 @@ fn main() -> io::Result < () > {
 */
 
     // the format is checked using regex
-    let quote_re = Regex::new("\"[a-zA-Zéè1-9.,?!-' ;:]+\"( - [a-zA-Z-'. ]*)?").unwrap();
+    let quote_re = Regex::new("\"[a-zA-ZéèșȘțȚăĂîÎâÂ1-9.,?!-' ;:]+\"( - [a-zA-Z-'. ]*)?").unwrap();
 
     let mut quotes: Vec < String > = Vec::new();
 
