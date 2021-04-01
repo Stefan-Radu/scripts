@@ -17,22 +17,28 @@ fi
 # regex for right quote format
 REGEX="^([\w' .;:țșîăâè\!?])+\.,( [\w 'țșîăâè\-.]+)?$"
 
-cnt=0
-lines=()
+# check for missmatches
+not_matched_count=$(grep -cvP "$REGEX" $1)
+
+if [[ $not_matched_count -ne 1 ]]; then
+  not_matched=$(grep -nvP "$REGEX" $1)
+  nl_index=$(expr index "$not_matched" $'\n')
+  not_matched=${not_matched:$nl_index}
+  echo -e "The following lines are not formatted properly\n\n$not_matched\n\nFix them asap."
+  exit -1
+fi
 
 # store in array
-# report any missmatching quotes
+lines=()
+
 while read line; do
-  cnt=$((cnt+1))
-
-  match=$(grep -P "$REGEX" <<< $line)
-  diff -s <(echo $match) <(echo $line) >> /dev/null
-
-  [[ $cnt -gt 1 && $? -eq 1 ]] &&
-  echo -e "line $cnt not is not formatted properly.\n$line\nFix it asap." &&
-  exit -1
-
   lines+=("$line")
+  # this is very slow so I commented it out
+  # match=$(grep -P "$REGEX" <<< $line)
+  # diff -s <(echo $match) <(echo $line) >> /dev/null
+  # [[ $cnt -gt 1 && $? -eq 1 ]] &&
+  # echo -e "line $cnt not is not formatted properly.\n$line\nFix it asap." &&
+  # exit -1
 done < <(cat $1)
 
 lines_cnt=${#lines[@]}
