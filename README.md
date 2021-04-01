@@ -1,8 +1,4 @@
-## Quotes
+# Random scripts
 
-Provided a file containing various quotes, the program will print out on the screen one of them at random.   
-The quotes should be written using the following format: "Quote text"[ - Author's name]. Everything within brackts ([...]) is optional.   
-Example running command:   
-```bash
-quotes /path/to/quotes/file
-```
+### [quotes_rust)(./quotes_rust) - Output random quote from markdown
+### [quotes_bash)(./quotes_bash) - Output random quote from CSV
