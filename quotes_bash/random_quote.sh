@@ -41,15 +41,17 @@ while read line; do
   # exit -1
 done < <(cat $1)
 
-lines_cnt=${#lines[@]}
-index=$(($RANDOM%$lines_cnt))
-comma_index=$(expr index "${lines[$index]}" ",")
+lines_cnt=$((${#lines[@]} - 1))
+index=$(($RANDOM%$lines_cnt + 1))
+
+# reverse line
+rev_line=$(echo ${lines[$index]} | rev)
 
 # format quotes to look like a quote
-if [[ $comma_index -eq ${#lines[$index]} ]]; then
-  to_print="\"${lines[$index]/[,]/\"}"
+if [[ -z "${rev_line%%,*}" ]]; then
+  to_print=$(echo ${rev_line/[,]/} | rev)
 else
-  to_print="\"${lines[$index]/[,]/\" - }"
+  to_print=$(echo ${rev_line/[,]/ - } | rev)
 fi
 
 # print
