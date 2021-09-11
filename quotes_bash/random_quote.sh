@@ -15,7 +15,7 @@ if [[ ! -e $1 || ! -f $1 || ! -r $1 ]]; then
 fi
 
 # regex for right quote format
-REGEX="\"([\w' .,;:țșîăâè\!?])+[\.?!]\",( [\w 'țșîăâè\-.]+)?"
+REGEX="\"([\w' .,;:țșîăâè\!?-])+[\.?!]\",( [\w 'țșîăâè\-.]+)?"
 
 # check for missmatches
 not_matched_count=$(grep -cvP "$REGEX" $1)
