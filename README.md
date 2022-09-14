@@ -1,5 +1,4 @@
-# Useful Scripts
+## scripts I happen to use sometimes
 
-### [quotes_rust](./quotes_rust) - Output random quote from Markdown
-### [quotes_bash](./quotes_bash) - Output random quote from CSV
+### [quotes_go](./quotes_go) - Output random quote from Markdown
 ### [video_to_gif](./video_to_gif) - Render a gif from an input video
