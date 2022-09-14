@@ -21,7 +21,6 @@ func main() {
 	}
 
 	var path string = args[0]
-	fmt.Println(path)
 
 	file, err := os.Open(path)
 	if err != nil {
