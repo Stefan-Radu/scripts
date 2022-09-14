@@ -35,13 +35,12 @@ done
 
 if [[ $# -eq 0 ]]; then
     help_message="Use the following options:
-    > -i: input file [mandatory]
-    > -o: output file [mandatory]
-    > -s: skip seconds [optional, default none]
-    > -t: to seconds [optional, default none]
-    > -f: fps [optional, default 15]
-    > -z: scale [optional, default 480]
-    > -h: show help [optional]"
+    -i: input file [mandatory]
+    -o: output file [mandatory]
+    -s: skip seconds [optional, default none]
+    -t: to seconds [optional, default none]
+    -f: fps [optional, default 15]
+    -z: scale [optional, default 480]"
 
     echo "$help_message"
 
@@ -58,12 +57,10 @@ if [[ -z $output_file ]]; then
     exit -1
 fi
 
-exit 0
+echo "Generating to gif..."
 
-echo "Converting to gif..."
+ffmpeg -y -ss $skip_seconds -to $to_seconds -i $input_file -filter_complex "fps=$fps,scale=$scale:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=32[p];[s1][p]paletteuse=dither=bayer" $output_file
 
-ffmpeg -y -ss $skip_seconds -to $to_seconds -i $input_file -filter_complex "fps=15,scale=450:-1:flags=lanczos,split[s0][s1];[s0]palettegen=max_colors=32[p];[s1][p]paletteuse=dither=bayer" $output_file
-
-file_size = $(stat -c %s $output)
+file_size=$(stat -c %s $output_file)
 
 echo "Output file size: $file_size bytes"
