@@ -22,28 +22,57 @@ func main() {
 
 	var path string = args[0]
 
+    // try to open file
 	file, err := os.Open(path)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 	}
 	defer file.Close()
 
-	regularExpression := `> \".*[\.!?]\" -( .*)?`
+    // just end in a punctuation mark
+	regularExpression := `.*[\.!?]`
+
 	re := regexp.MustCompile(regularExpression)
 
 	idx := 1
 	var foundErrors bool = false
+    var expect = "quote"
 	var quotes []string
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		txt := scanner.Text()
-		res := re.Find([]byte(txt))
-		if res == nil && txt != "" {
-			fmt.Fprintf(os.Stderr, "error at line %d: `%s`\n", idx, txt)
-			foundErrors = true
-		} else if txt != "" {
-			quotes = append(quotes, string(res)[2:])
-		}
+
+        if expect == "quote" {
+            res := re.Find([]byte(txt))
+            if res == nil && txt != "" {
+                fmt.Fprintf(os.Stderr, "Format error at line %d: `%s`\n" +
+                    "Check ending punctuation.\n", idx, txt)
+                foundErrors = true
+            } else if txt != "" {
+                quotes = append(quotes, "\"" + string(res) + "\"")
+            } else {
+                fmt.Fprintf(os.Stderr, "Line %d is empty. Expecting quote.\n", idx)
+                foundErrors = true
+                break
+            }
+            expect = "author"
+        } else if expect == "author" {
+            if txt != "" {
+                quotes[len(quotes) - 1] += " - " + string(txt)
+                expect = "blank"
+            } else if txt == "" {
+                quotes[len(quotes) - 1] += " - Unknown Author"
+                expect = "quote"
+            }
+        } else if expect == "blank" {
+            if txt != "" {
+                fmt.Fprintf(os.Stderr, "Error at line %d. Expecting blank line.\n", idx)
+                foundErrors = true
+                break
+            }
+            expect = "quote"
+        }
+
 		idx += 1
 	}
 
