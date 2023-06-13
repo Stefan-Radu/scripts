@@ -90,8 +90,8 @@ next_line=$(sed "$((($line_nubmer+1)))q;d" $file)
 if [ -n "$(echo "$next_line" | grep -E "^a:")" ]; then
     # only author, no header
     author=$(cut -c 3- <<< "$next_line")
-    printf "> %s\n- %s" "$quote" "$author"
+    printf "%s - %s" "$quote" "$author"
 else 
     # print quote without author
-    echo -n "> $quote"
+    echo -n "$quote"
 fi
