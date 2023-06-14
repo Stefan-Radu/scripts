@@ -7,9 +7,9 @@ NC='\033[0m' # No Color
 usage="$(basename "$0") [options] -f file_path
 
 usage:
-    -f  input file
-    -i  show information regarding the expected file format
-    -h  show this help text
+    -f  file_path   File path of the quotes file
+    -i              Show information regarding the expected file format
+    -h              Show this help text
 
 Cute script ^^ which prints out a random quote from a formatted file."
 
