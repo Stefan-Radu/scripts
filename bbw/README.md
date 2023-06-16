@@ -64,6 +64,6 @@ Use the `-c` option to copy to clipboard
 
 ## Notes on behaviour
 
-As stated, this script is just a `bitwarden-cli` wrapper. It offers minimal flexibility to simplify usage and maximize security. Thus, for password generation, uppercase, lowercase, numbers and symbols are used by default. You can opt-in to not use symbols. Also, for passphrases all words are capitalized and one number is included. For both, the length can customized, but by default a password will be 15 characters in length and a passphrase whill span 3 words.
+As stated, this script is just a `bitwarden-cli` wrapper. It offers minimal flexibility to simplify usage and maximize security. Thus, for password generation, uppercase, lowercase, numbers and symbols are used by default. You can opt-in to not use symbols. Also, for passphrases all words are capitalized and one number is included. For both, the length can be customized, but by default a password will be 15 characters in length and a passphrase will span 3 words.
 
 By default you have to input your account password for every use (excluding generation). However, there are multiple login options that you can read about in the [official documentation](https://bitwarden.com/help/cli/)
