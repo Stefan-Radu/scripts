@@ -9,7 +9,7 @@ clipboard="xsel -b"
 
 usage="$(basename "$0") [options] <search_term>
 
-Wrapper for bw(bitwardencli). Use to search for a login info, and to 
+Wrapper for bw(bitwarden-cli). Use to search for a login info, and to 
 copy credentials to clipboard. Use options to generate passwords.
 
 arguments:
