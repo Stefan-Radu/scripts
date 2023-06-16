@@ -80,7 +80,7 @@ if [ -z $options ]; then
 
         [ "$choice" -ge 0 ] 2>/dev/null \
             && [ "$choice" -lt $length ] 2>/dev/null \
-            || echo "Invalid input!" && exit 1
+            || (echo "Invalid input!"; exit 1)
     fi
 
     login="$(echo -n "$logins" | jq ".[$choice].login")"
