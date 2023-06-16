@@ -63,7 +63,7 @@ shift "$((OPTIND - 1))"
 if [ -z $options ]; then
     # choose the desired login
 
-    [ $# -eq 0 ] && (printf "Search term required!\nuse -h for help"; exit 0)
+    [ $# -eq 0 ] && printf "Search term required!\nuse -h for help" && exit 0
 
     logins=$(bw list items --search "$1")
     length=$(echo -n "$logins" | jq length)
@@ -80,7 +80,7 @@ if [ -z $options ]; then
 
         [ "$choice" -ge 0 ] 2>/dev/null \
             && [ "$choice" -lt $length ] 2>/dev/null \
-            || (echo "Invalid input!"; exit 1)
+            || echo "Invalid input!" && exit 1
     fi
 
     login="$(echo -n "$logins" | jq ".[$choice].login")"
@@ -112,7 +112,7 @@ else
         generated=$(bw generate -p --words "$length" -c --includeNumber)
     fi
 
-    [ -z "$generated" ] && (echo "$usage"; exit 1)
+    [ -z "$generated" ] && echo "$usage" && exit 1
 
     if [ -n "$copy" ]; then
         echo -n "$generated" | $clipboard
