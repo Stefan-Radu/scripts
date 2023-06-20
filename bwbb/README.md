@@ -1,4 +1,4 @@
-# BBW
+# BWBB - BitWarden _but better_
 
 A minimal `bitwarden-cli` wrapper.
 
@@ -12,7 +12,7 @@ Inspired by [this](https://www.drumm.sh/blog/2021/08/25/bw-cli/) article and [sh
 
 ## Usage
 
-    bbw.sh [options] <search_term>
+    bwbb.sh [options] <search_term>
 
     Wrapper for bw(bitwarden-cli). Use to search for a login info, and to
     copy credentials to clipboard. Use options to generate passwords.
@@ -32,7 +32,7 @@ Inspired by [this](https://www.drumm.sh/blog/2021/08/25/bw-cli/) article and [sh
 
 To get credentials:
 
-    $ bbw <search-term>
+    $ bwbb <search-term>
     ? Master password: [hidden]
 
     Multiple matches:
@@ -46,19 +46,19 @@ To get credentials:
 
 To generate a password:
 
-    $ bbw -gl 15
+    $ bwbb -gl 15
     Generated password:
     *9j@%opq&N8BQyX
 
 To generate a pass-phrase:
 
-    $ bbw -pl 5
+    $ bwbb -pl 5
     Generated password:
     Bobsled-Scrawny-Rockiness-Fang1-Shorthand
 
 Use the `-c` option to copy to clipboard
 
-    $ bbw -pl 5 -c
+    $ bwbb -pl 5 -c
     Password copied to your clipboard
 
 
