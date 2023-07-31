@@ -2,6 +2,10 @@
 
 set -e
 clipboard="xsel -b"
+jq_parse_command='to_entries | .[] | (.key | tostring) '`
+                `'+ ") <" + (.value.name | tostring) '`
+                `'+ "> " + (.value.login.username '`
+                `'| tostring)'
     
 #########
 # Usage #
@@ -68,13 +72,14 @@ if [ -z $options ]; then
     logins=$(bw list items --search "$1")
     length=$(echo -n "$logins" | jq length)
 
-    if [ "$length" -eq 1 ]; then
+    if [ "$length" -eq 0 ]; then
+        echo -e "\nNo matches"
+        exit 0
+    elif [ "$length" -eq 1 ]; then
         choice=0
     else
         echo -e "\nMultiple matches:"
-        echo "$logins" | jq -r 'to_entries | .[] | '`
-            `'(.key | tostring) + ") " + '`
-            `'(.value.login.username | tostring)'
+        echo "$logins" | jq -r "$jq_parse_command"
         echo -n "Choose only one: "
         read choice
 
@@ -93,7 +98,7 @@ if [ -z $options ]; then
     echo 'Press any key to copy password...' && read -s
 
     # Copy the password to the clipboard
-    echo -n 'Password copied!'
+    echo 'Password copied!'
     echo -n "$login" | jq -r '.password' | $clipboard
 else
     # generate a password
@@ -116,8 +121,10 @@ else
 
     if [ -n "$copy" ]; then
         echo -n "$generated" | $clipboard
-        echo -n "Password copied to your clipboard"
+        echo "Password copied to your clipboard"
     else
-        echo -en "Generated password:\n$generated"
+        echo -e "Generated password:\n$generated"
     fi
 fi
+
+exit 0
