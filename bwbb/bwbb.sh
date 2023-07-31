@@ -6,6 +6,15 @@ jq_parse_command='to_entries | .[] | (.key | tostring) '`
                 `'+ ") <" + (.value.name | tostring) '`
                 `'+ "> " + (.value.login.username '`
                 `'| tostring)'
+
+trim() {
+    local var="$*"
+    # remove leading whitespace characters
+    var="${var#"${var%%[![:space:]]*}"}"
+    # remove trailing whitespace characters
+    var="${var%"${var##*[![:space:]]}"}"
+    printf '%s' "$var"
+}
     
 #########
 # Usage #
@@ -91,15 +100,21 @@ if [ -z $options ]; then
     login="$(echo -n "$logins" | jq ".[$choice].login")"
 
     # Copy the username to the clipboard
-    echo -n "$login" | jq -r '.username' | $clipboard
+    username=`echo -n "$login" | jq -r '.username'`
+    username=`trim "$username"`
+
+    echo -n "$username" | $clipboard
     echo 'Username in clipboard'
 
     # Wait for user input before coping the password
     echo 'Press any key to copy password...' && read -s
 
     # Copy the password to the clipboard
+    password=`echo -n "$login" | jq -r '.password'`
+    password=`trim "$password"`
+
+    echo -n "$password" | $clipboard
     echo 'Password copied!'
-    echo -n "$login" | jq -r '.password' | $clipboard
 else
     # generate a password
     if [ -n "$password" ]; then
