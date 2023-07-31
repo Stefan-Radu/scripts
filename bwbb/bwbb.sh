@@ -1,11 +1,14 @@
 #!/bin/sh
 
 set -e
-clipboard="xsel -b"
-jq_parse_command='to_entries | .[] | (.key | tostring) '`
-                `'+ ") <" + (.value.name | tostring) '`
-                `'+ "> " + (.value.login.username '`
-                `'| tostring)'
+
+if [ -n "$BWBB_CLIPBOARD" ]; then
+    # allow setting of custom clipboard 
+    clipboard="$BWBB_CLIPBOARD"
+else
+    # default to `xsel`
+    clipboard="xsel -b"
+fi
 
 trim() {
     local var="$*"
@@ -73,10 +76,17 @@ shift "$((OPTIND - 1))"
 # Main Logic #
 ##############
 
+
 if [ -z $options ]; then
     # choose the desired login
 
     [ $# -eq 0 ] && printf "Search term required!\nuse -h for help" && exit 0
+
+    # used to parse bw output into name & username pairs
+    jq_parse_command='to_entries | .[] | (.key | tostring) '`
+                    `'+ ") <" + (.value.name | tostring) '`
+                    `'+ "> " + (.value.login.username '`
+                    `'| tostring)'
 
     logins=$(bw list items --search "$1")
     length=$(echo -n "$logins" | jq length)
