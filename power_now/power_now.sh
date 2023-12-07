@@ -1,13 +1,14 @@
 #! /usr/bin/env sh
 
-# this is supposed to be used on systems where there is no
-# /sys/class/power_supply/BAT0/power_now
-
 BASE_PATH='/sys/class/power_supply/BAT0/'
 
 function get_power_now() {
+    local power_now=""
+
     if [ -f "$BASE_PATH/power_now" ]; then
         power_now=$(cat "$BASE_PATH/power_now")
+        power_now=$(echo "scale=2; ${power_now}" \
+            " / 10 ^ 6" | bc)
 
     elif [ -f "$BASE_PATH/current_now" ] \
         && [ -f "$BASE_PATH/voltage_now" ]; then
@@ -20,9 +21,6 @@ function get_power_now() {
         power_now=$(echo "scale=2; ${current_now}" \
             " * ${voltage_now}" \
             " / 10 ^ 12" | bc)
-
-    else 
-        power_now=""
     fi
 
     echo "$power_now"
