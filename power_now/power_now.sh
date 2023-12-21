@@ -18,9 +18,10 @@ function get_power_now() {
         # micro volts
         voltage_now=$(cat "$BASE_PATH/voltage_now")
         # divide by 10 ^ 12 to get watts
-        power_now=$(echo "scale=2; ${current_now}" \
+        power_now=$(echo "printf(\"%.2f\"," \
+            "   ${current_now}" \
             " * ${voltage_now}" \
-            " / 10 ^ 12" | bc)
+            " / 10 ** 12)" | perl)
     fi
 
     echo "$power_now"
@@ -31,7 +32,7 @@ do
     power_now=$(get_power_now)
 
     [ -n "$power_now" ] \
-        && printf "\rPower usage: %.2fW" $power_now \
+        && printf "\rPower usage: %5sW" $power_now \
         || { echo -n "Power levels unavailalble"; exit 1; }
 
     sleep 1;
